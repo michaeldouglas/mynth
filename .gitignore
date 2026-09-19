@@ -1,0 +1,18 @@
+# Codex engineering harness is local-only and must not be published with Mynth.
+/harness/
+
+# Rust build output and generated backups.
+/target/
+*.rs.bk
+
+# Local IDE and operating-system files.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Local configuration and secrets. Keep an example file trackable explicitly.
+.env
+.env.*
+!.env.example
