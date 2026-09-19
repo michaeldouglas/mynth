@@ -46,7 +46,7 @@ jobs:
               exit 1
             fi
 
-            expected_title_prefix="$HEAD_REF -> develop:"
+            expected_title_prefix="$HEAD_REF to develop:"
           elif [[ "$BASE_REF" == "main" ]]; then
             if [[ "$HEAD_REF" != "develop" ]]; then
               echo "Invalid PR flow: $HEAD_REF -> $BASE_REF"
@@ -54,7 +54,7 @@ jobs:
               exit 1
             fi
 
-            expected_title_prefix="develop -> main:"
+            expected_title_prefix="develop to main:"
           else
             echo "Unsupported PR target: $BASE_REF"
             echo "PRs may target only develop or main."
