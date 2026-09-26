@@ -14,31 +14,58 @@ permissions:
 
 jobs:
   feature-branch-policy:
-    name: Require feature branches
+    name: Enforce branch flow
     runs-on: ubuntu-latest
     steps:
-      - name: Validate branch naming
+      - name: Validate branch flow and pull request title
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
           HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
           REF_NAME: ${{ github.ref_name }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           set -euo pipefail
 
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            source_branch="$HEAD_REF"
-          else
-            source_branch="$REF_NAME"
+          if [[ "$EVENT_NAME" != "pull_request" ]]; then
+            if [[ "$REF_NAME" != feature/* ]]; then
+              echo "Invalid push branch: $REF_NAME"
+              echo "Development pushes must use feature/<name> branches."
+              exit 1
+            fi
+
+            echo "Feature push accepted for $REF_NAME"
+            exit 0
           fi
 
-          if [[ "$source_branch" != feature/* ]]; then
-            echo "Invalid source branch: $source_branch"
-            echo "Changes must be developed on feature/<name> branches."
-            echo "Direct commits to main and develop are not allowed."
+          if [[ "$BASE_REF" == "develop" ]]; then
+            if [[ "$HEAD_REF" != feature/* ]]; then
+              echo "Invalid PR flow: $HEAD_REF -> $BASE_REF"
+              echo "Only feature/<name> branches may open PRs to develop."
+              exit 1
+            fi
+
+            expected_title_prefix="$HEAD_REF to develop:"
+          elif [[ "$BASE_REF" == "main" ]]; then
+            if [[ "$HEAD_REF" != "develop" ]]; then
+              echo "Invalid PR flow: $HEAD_REF -> $BASE_REF"
+              echo "Only develop may open PRs to main."
+              exit 1
+            fi
+
+            expected_title_prefix="develop to main:"
+          else
+            echo "Unsupported PR target: $BASE_REF"
+            echo "PRs may target only develop or main."
             exit 1
           fi
 
-          echo "Branch policy passed for $source_branch"
+          if [[ "$PR_TITLE" != "$expected_title_prefix"* ]]; then
+            echo "Invalid PR title: $PR_TITLE"
+            echo "Expected title prefix: $expected_title_prefix"
+            exit 1
+          fi
 
+          echo "Branch policy passed: $HEAD_REF -> $BASE_REF"
 
