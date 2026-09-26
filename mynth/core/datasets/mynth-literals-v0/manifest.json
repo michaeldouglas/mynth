@@ -1,0 +1,20 @@
+{
+  "dataset_id": "mynth-literals-v0",
+  "dataset_kind": "pilot-scaffold",
+  "language_spec_revision": "mynth-literals-v0-draft",
+  "source_identity": "manual-authoring-pending",
+  "source_immutable": true,
+  "record_count": 0,
+  "split_policy": "not-created",
+  "readiness": "blocked",
+  "readiness_reasons": [
+    "No approved Mynth literal syntax exists yet.",
+    "No compiler validation is available yet.",
+    "No source records have been authored yet."
+  ],
+  "training_authorized": false,
+  "training_tool": "llama-factory",
+  "inference_tool": "openvino",
+  "source_path": "source/records.jsonl",
+  "record_contract": "../../../../harness/specs/009-mynth-fine-tuning-foundation/contracts/mynth-dataset-record.schema.json"
+}

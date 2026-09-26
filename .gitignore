@@ -5,6 +5,9 @@
 /target/
 *.rs.bk
 
+# Local Mynth experiments; do not publish notebooks, scripts, or scratch output.
+/mynth/lab/
+
 # Local IDE and operating-system files.
 .idea/
 .vscode/
