@@ -1,0 +1,14 @@
+{
+  "record_id": "literal-integer-001",
+  "language_spec_revision": "mynth-literals-v0-draft",
+  "instruction": "<instrução em linguagem natural>",
+  "context": "",
+  "mynth_output": "<representação Mynth canônica, preencher somente após aprovação da sintaxe>",
+  "expected_behavior": "<comportamento semântico esperado>",
+  "subset_features": [
+    "literal-integer"
+  ],
+  "status": "candidate",
+  "source": "manual",
+  "source_hash": "<calcular após o registro ser finalizado>"
+}
